@@ -238,13 +238,16 @@ public class PDFView extends SurfaceView {
         decodingAsyncTask = new DecodingAsyncTask(uri, this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             decodingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        }
-        else {
+        } else {
             decodingAsyncTask.execute();
         }
 
         renderingAsyncTask = new RenderingAsyncTask(this);
-        renderingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            renderingAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            renderingAsyncTask.execute();
+        }
     }
 
     /**
